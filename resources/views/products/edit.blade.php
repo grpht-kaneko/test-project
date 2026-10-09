@@ -27,6 +27,9 @@
         <label>単価: <input type="number" name="unit_price" value="{{ old('unit_price', $product->unit_price) }}"></label><br>
         <label>在庫数: <input type="number" name="quantity" value="{{ old('quantity', $product->quantity) }}"></label><br>
         <label>発注点: <input type="number" name="reorder_point" value="{{ old('reorder_point', $product->reorder_point) }}"></label><br>
+        {{-- route('products.update', $product): 名前付きルートに$productを渡すと、Laravelが自動的に/products/{id}のURLを組み立ててくれます（createのときはIDが不要でしたが、updateは「どのレコードを更新するか」を指定する必要があるため）
+        @method('PUT'): HTMLの<form>タグは本来GETとPOSTしか送信できませんが、Laravelでは@method('PUT')という隠しフィールドを使って「このリクエストは実質PUTです」とLaravel側に伝える仕組みがあります。Route::resourceの更新用ルートはPUT（またはPATCH）で定義されているため、これが必要です
+        value="{{ $product->name }}"のように、各入力欄にすでに登録されている値を初期値として埋め込んでいます --}}
 
         <button type="submit">更新</button>
     </form>

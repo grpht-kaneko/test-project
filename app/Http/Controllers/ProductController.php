@@ -36,6 +36,15 @@ class ProductController extends Controller
             'quantity' => 'required|integer|min:0',
             'reorder_point' => 'required|integer|min:0',
         ]);
+        //$request->validate([...]): 送信データをルールに沿ってチェックします。ルールに違反していると、自動的に元のフォーム画面にリダイレクトされ、エラーメッセージがセッションに格納されます（今の段階ではまだ画面にエラー表示は出ませんが、後で対応します）
+        //required: 必須項目
+        //string / numeric / integer: 型のチェック
+        //max:255: 最大文字数
+        //min:0: 最小値
+        //unique:products,sku: productsテーブルのskuカラム内で重複していないかチェック（在庫商品コードの重複を防ぐため）
+        //バリデーションを通過すると、$validatedにはチェック済みの安全なデータだけが入っています
+        //Product::create($validated): これが実際にINSERT文を発行する部分。$fillableに指定したカラムなので、まとめて書き込めます
+        //redirect()->route('products.index'): 保存後、一覧ページへ転送
 
         Product::create($validated);
 
@@ -57,6 +66,9 @@ class ProductController extends Controller
     {
         return view('products.edit', ['product' => $product]);
     }
+    //Route::resourceで定義された/products/{product}/editというURLの{product}部分（例: /products/3/editの3）を、Laravelが自動的に「ProductモデルのIDが3のレコードを検索する処理」に変換してくれます
+    //つまり自分でProduct::find($id)やProduct::findOrFail($id)を書かなくても、引数の型をProductにしておくだけで、該当するレコードが見つかった状態の$productが渡ってきます
+    //該当IDのレコードが存在しない場合は、Laravelが自動的に404エラーページを返してくれます（エラー処理も書かなくて済みます）
 
     /**
      * Update the specified resource in storage.

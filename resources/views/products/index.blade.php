@@ -32,6 +32,9 @@
                         @method('DELETE')
                         <button type="submit" onclick="return confirm('削除しますか？')">削除</button>
                     </form>
+                    {{-- method="POST" + @method('DELETE'): 編集フォームで使った仕組みと同じで、「見た目はPOSTだが実質DELETE」とLaravelに伝えます
+                    onclick="return confirm('削除しますか？')": 削除は取り消せない操作なので、誤クリック防止のためブラウザ標準の確認ダイアログを出しています。confirm()がfalseを返す（キャンセルされる）と、フォームは送信されません
+                    style="display:inline": <form>はデフォルトでブロック要素なので、見た目上「編集」リンクと並べるための簡易的な調整です（スタイリングは後で整えればOKです） --}}
                 </td>
             </tr>
         @endforeach
